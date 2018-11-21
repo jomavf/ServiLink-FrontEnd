@@ -16,9 +16,6 @@ export const store = new Vuex.Store({
     userService: null
   },
   mutations: {
-    cambio(){
-      return
-    },
     setUserService (state, payload) {
       state.userService = payload
     },

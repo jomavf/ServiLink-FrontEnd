@@ -13,9 +13,16 @@ export const store = new Vuex.Store({
     user: null,
     account: null,
     userId: null,
-    userService: null
+    userService: null,
+    categories: []
   },
   mutations: {
+    addCategory (state, payload) {
+      state.categories.push(payload)
+    },
+    setCategory (state, payload) {
+      state.categories = payload
+    },
     setUserService (state, payload) {
       state.userService = payload
     },
@@ -45,6 +52,40 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    postCategories ({commit}, payload) {
+      commit('setLoading', true)
+      const newCategory = {
+        name: payload
+      }
+      API.postCategories(newCategory)
+      .then(data => {
+        const categoryName = data.item.name
+        commit('addCategories', categoryName)
+        commit('setLoading', false)
+      })
+      .catch(err => {
+        console.log(err)
+        commit('setLoading', false)
+      })
+    },
+    getCategories ({commit, getters}) {
+      commit('setLoading', true)
+      API.getCategories()
+      .then(data => {
+        const datas = data.items
+        console.log(datas)
+        datas.map(item => {
+          getters.categories.push(item.name)
+        })
+        console.log(getters.categories)
+        commit('setLoading', false)
+        commit('setCategories', data.items)
+      })
+      .catch(err => {
+        commit('setLoading', false)
+        console.log(err)
+      })
+    },
     getUserService ({commit}, id) {
       console.log(id)
       API.getService(id)
@@ -90,13 +131,15 @@ export const store = new Vuex.Store({
       commit('setUser', localStorage.token)
     },
     createService ({commit, getters}, payload) {
+      console.log(`cate -> ${payload.category}`)
       commit('setLoading', true)
       commit('clearError')
       const newService = {
         title: payload.title,
         description: payload.description,
         price: payload.price,
-        position: payload.position
+        position: payload.position,
+        categoryName: payload.category
       }
       let id
       let urlOriginal
@@ -210,6 +253,9 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
+    categories (state) {
+      return state.categories
+    },
     loadedServices (state) {
       return state.loadedServices
     },

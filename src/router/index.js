@@ -8,6 +8,7 @@ import Services from '@/components/Service/Services'
 import CreateService from '@/components/Service/CreateService'
 import Service from '@/components/Service/Service'
 import RegisterDialog from '@/components/Service/Registration/RegisterDialog'
+import Administrator from '@/components/Administrator/Administrator/'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -18,6 +19,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/administrator',
+      name: 'Administrator',
+      component: Administrator
     },
     {
       path: '/profile',
@@ -59,6 +65,5 @@ export default new Router({
       component: RegisterDialog,
       beforeEnter: AuthGuard
     }
-  ],
-  mode: 'history'
+  ]
 })

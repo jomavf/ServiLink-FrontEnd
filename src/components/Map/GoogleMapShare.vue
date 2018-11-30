@@ -1,17 +1,5 @@
 <template>
   <div>
-    <div>
-      <h2
-      >Enter your location below</h2>
-      <label>
-        <gmap-autocomplete
-          @place_changed="setPlace">
-        </gmap-autocomplete>
-        <button @click="addMarker">Add a location</button>
-      </label>
-      <br/>
-
-    </div>
     <br>
     <gmap-map ref="mapRef"
       :center="center"
@@ -76,7 +64,7 @@ export default {
           <p>${description}</p>
           <div><img src="${urlToImage}" style="height:60px;border: 1px solid black"></div>
           <h2>$ ${price}</h2>
-          <a href="/services/${id}"><h3>Go to the service>></h3></a>
+          <a href="/#/services/${id}"><h3>Go to the service>></h3></a>
         </div>
       `
     },

@@ -1,13 +1,28 @@
 import ezFetch from 'ez-fetch'
-const baseURL = 'http://servilink.herokuapp.com'
+const baseURL = 'https://servilink.herokuapp.com'
 const getServicesUrl = `${baseURL}/service`
 const getUserUrl = `${baseURL}/auth`
 const getLoginUrl = `${baseURL}/auth/login`
 const getAutoLoginUrl = `${baseURL}/auth/autologin`
+const getCategoriesUrl = `${baseURL}/category`
 
 export default {
   getServices () {
     return ezFetch.get(getServicesUrl)
+  },
+  getCategories () {
+    return ezFetch.get(getCategoriesUrl, {
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
+  },
+  postCategories (mCategory) {
+    return ezFetch.post(getCategoriesUrl, mCategory, {
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
   },
   getService (id) {
     return ezFetch.get(`${getServicesUrl}/${id}`)

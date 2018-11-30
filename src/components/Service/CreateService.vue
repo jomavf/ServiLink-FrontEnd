@@ -47,6 +47,15 @@
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
+              <v-select
+                v-model="mCategory"
+                :items="categories"
+                label="Select a category"
+              ></v-select>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
               <v-btn raised class="primary" @click="onPickFile">Upload Image</v-btn>
               <input
                 type="file"
@@ -105,6 +114,7 @@
         price: '',
         imageUrl: '',
         image: null,
+        mCategory: null,
       }
     },
     computed: {
@@ -118,9 +128,18 @@
       },
       loading () {
         return this.$store.getters.loading
-      }
+      },
+      categories () {
+        return this.$store.getters.categories
+      },
+    },
+    mounted(){
+      this.setCategories()
     },
     methods: {
+      setCategories(){
+        this.$store.dispatch('getCategories')
+      },
       onDismissed () {
         this.$store.dispatch('clearError')
       },
@@ -143,7 +162,8 @@
           price:this.price,
           urlToImage: this.image,
           imageHttp:this.imageUrl,
-          position: this.position
+          position: this.position,
+          category: this.mCategory
         }
         this.$store.dispatch('createService', serviceData)
       },
